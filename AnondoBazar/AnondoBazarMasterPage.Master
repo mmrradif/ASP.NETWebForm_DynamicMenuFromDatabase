@@ -1,0 +1,256 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AnondoBazarMasterPage.master.cs" Inherits="AnondoBazar.AnondoBazarMasterPage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title><%:Page.Title %></title>
+
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+
+    <link href="Content/font-awesome.css" rel="stylesheet" />
+    <script src="Scripts/jquery-3.6.1.js"></script>
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+
+        <%--<nav class="navbar navbar-expand-lg bg-dark p-2" runat="server">
+
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="col collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+
+                    <ul class="navbar-nav col-8">
+
+                        <li class="nav-item">
+                            <a class="nav-link m-1 p-1 btn btn-info" href="frmHome.aspx">Home</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link m-1 p-1 btn btn-info dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">Products
+                            </a>
+                            <%                                                     
+                                if (Session["UserName"] != null)
+                                {
+                            %>                               
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#">Men</a>
+                                        <a class="dropdown-item" href="#">Women</a>
+
+                                        <%
+                                            if (Session["UserType"] != null)
+                                            {
+                                                string usertype = Session["UserType"].ToString();
+                                                if (usertype == "admin")
+                                                {
+                                        %>
+                                                <a class="dropdown-item" href="#">Add Product</a>
+                                        <%
+                                                }
+                                            }
+                                        %>
+
+                                    </div>
+                            <%
+                                }
+                                else
+                                {
+                            %>
+                                    <div class="dropdown-menu">
+                                        <h1 class="dropdown-header">Please Login</h1>
+                                    </div>                                
+                            <% 
+                                }
+                            %>
+
+                        </li>
+
+                        
+
+                        <%                                                     
+                            if (Session["UserType"] != null)
+                            {
+                                string usertype = Session["UserType"].ToString();
+                                if (usertype == "user")
+                                {
+                        %>
+                                <li class="nav-item">
+                                    <a class="nav-link m-1 p-1 btn btn-danger" href="#">Best Offer</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link m-1 p-1 btn btn-primary" href="#">Discount</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link m-1 p-1 btn btn-secondary" href="#">Cart<i class="fa fa-cart-plus"></i></a>
+                                </li>
+                        <%
+                                }
+                            }
+
+                               
+
+                            if (Session["UserType"] != null)
+                            {
+                                string usertype = Session["UserType"].ToString();
+                                if (usertype == "admin")
+                                {
+                        %>
+
+                                <li class="nav-item">
+                                    <a class="nav-link m-1 p-1 btn btn-info" href="#">Supplier</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link m-1 p-1 btn btn-info" href="#">Brand</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link m-1 p-1 btn btn-info" href="#">Category</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link m-1 p-1 btn btn-info" href="#">Product</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link m-1 p-1 btn btn-primary" href="frmAdminDashBoard.aspx">Admin DashBoard</a>
+                                </li>    
+                        <%
+                                }
+                            }                      
+                        %>
+
+
+                        <%                                                     
+                            if (Session["UserType"] == null || Session["UserType"] != null)
+                            {
+                                if (Session["UserType"] == null)
+                                {                                                      
+                        %>
+                                <li class="nav-item">
+                                    <a class="nav-link m-1 p-1 btn btn-info" href="#">About Us</a>
+                                </li>
+                        <%
+                                }
+
+                                if (Session["UserType"] != null)
+                                {
+                                    string usertype = Session["UserType"].ToString();
+                                    if (usertype == "user")
+                                    {                        
+                        %>
+                                    <li class="nav-item">
+                                        <a class="nav-link m-1 p-1 btn btn-info" href="#">About Us</a>
+                                    </li>
+                        <%          
+                                    }
+                                }                            
+                            }
+                        %>
+                        
+                    </ul>
+
+
+                    <ul class="navbar-nav justify-content-end col-4">
+
+                        <%                                                     
+                            if (Session["UserType"] != null)
+                            {
+                        %>
+                            <asp:Label ID="lblSessionUserName" CssClass="nav-item  p-2 px-3 rounded m-1 btn btn-light" runat="server" Text="Label"></asp:Label>
+                            <asp:Button ID="btnLogout" runat="server" CssClass="nav-item  p-2 rounded m-1 btn btn-outline-light" Text="logout" OnClick="btnLogout_Click" />
+                        <%
+                            }
+                            else
+                            {
+                        %>
+                            <asp:Button ID="btnUserRegister" CausesValidation="false" runat="server" CssClass="nav-item shadow p-2 rounded m-1 btn btn-outline-success" Text="Register" OnClick="btnUserRegister_Click" />
+
+                            <asp:Button ID="btnLogin" CausesValidation="false" runat="server" CssClass="nav-item shadow p-2 rounded m-1 btn btn-outline-primary" Text="Login" OnClick="btnLogin_Click" />
+                        <%
+                            }
+                        %>
+                    </ul>
+                </div>
+            </div>
+        </nav>--%>
+
+        <div class="row sticky-top">
+            <div class="col-10 m-0 p-0">
+                <asp:Menu ID="Menu1" CssClass="col-12 bg-info p-2" runat="server" Orientation="Horizontal" Width="100%">
+                    <DynamicHoverStyle BackColor="#3333CC" />
+                    <DynamicMenuItemStyle CssClass="btn p-1 px-1 m-1 border-top text-white" />
+                    <DynamicMenuStyle CssClass="bg-info" Width="120px" />
+                    <DynamicItemTemplate>
+                        <%# Eval("Text") %>
+                    </DynamicItemTemplate>                           
+                    <StaticHoverStyle BackColor="#3333CC" />
+                    <StaticMenuItemStyle CssClass="btn p-1 px-3 m-2 border text-white shadow" />
+                    <StaticMenuStyle HorizontalPadding="60px"/>
+                    <StaticItemTemplate>
+                        <%# Eval("Text") %>
+                    </StaticItemTemplate>
+
+                                    
+                </asp:Menu>
+               
+            </div>
+
+
+
+
+            <asp:Panel ID="Panel1" CssClass="col-2 m-0 p-0" runat="server">
+
+                <asp:Label ID="Label1" CssClass="bg-info shadow" runat="server" Text="" Visible="false"></asp:Label>
+
+                <asp:Button ID="btnLogout" CssClass="bg-info shadow" runat="server" Text="Logout" OnClick="btnLogout_Click" Visible="false" />
+
+                <asp:Menu ID="Menu2" CssClass="col-12 bg-info p-2 shadow" runat="server" Orientation="Horizontal" Width="100%">
+                    <StaticHoverStyle BackColor="#3333CC" />
+                    <StaticMenuItemStyle CssClass="btn border p-1 m-2 text-white shadow" />
+                    <StaticMenuStyle CssClass="bg-info" />
+                    <StaticItemTemplate>
+                        <%# Eval("Text") %>
+                    </StaticItemTemplate>
+                </asp:Menu>
+
+            </asp:Panel>
+
+            <div class="col-2 m-0 p-0">     
+                 
+
+                
+            </div>
+
+        </div>
+
+
+        <div>
+            <asp:ContentPlaceHolder ID="BodyContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+    </form>
+
+
+
+    <asp:Panel ID="MasterFooter" CssClass="bg-info text-white text-center p-2" runat="server">
+        <i> 
+            &copy;Mahbur
+        </i>
+    </asp:Panel>
+ 
+
+    <asp:ContentPlaceHolder ID="FooterContent" runat="server">
+    </asp:ContentPlaceHolder>
+    <script src="Scripts/bootstrap.js"></script>
+</body>
+</html>
+
